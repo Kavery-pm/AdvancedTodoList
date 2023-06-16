@@ -18,8 +18,16 @@ import { useEffect, useState } from 'react';
 
 export function NewListDialog( ) {
     const [dialogState, setdialogState] = useState(true)
+    const [filteredIcons, setfilteredIcons] = useState(Object.entries(Icons));
+    useEffect(() => {
+      
+    setfilteredIcons( Object.entries(Icons).filter(([name])=>!/Outlined$|TwoTone$|Rounded$|Sharp$/.test(name)))
+     
+    },[])
+    
   
-   console.log(Object.entries(Icons))
+  let x = Object.entries(Icons).filter(([name])=>!/Outlined$|TwoTone$|Rounded$|Sharp$/.test(name));
+  console.log(x)
 
   return (
     <Dialog open={dialogState} onClose={()=>{setdialogState(false)}}>
@@ -51,7 +59,7 @@ export function NewListDialog( ) {
           variant="outlined"
           sx={{ mt: 1, p: 1, display: 'flex', justifyContent: 'center' }}
         >
-         
+         {filteredIcons.map(([name,Icon])=>(
             <Box
               sx={{
                 display: 'inline-flex',
@@ -59,7 +67,7 @@ export function NewListDialog( ) {
                 width: 40,
                 mx: 1,
               }}
-           
+           key={name}
             >
              
               <Typography
@@ -67,10 +75,10 @@ export function NewListDialog( ) {
                 align="center"
                 sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}
               >
-              
+              <Icon/>
               </Typography>
             </Box>
-        
+))}
         </Card>
       </DialogContent>
       <DialogActions>
